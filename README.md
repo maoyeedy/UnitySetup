@@ -54,6 +54,7 @@ powershell -NoProfile ./.setup/Scripts/setup-unityyamlmerge.ps1
 ## Troubleshooting
 
 - Run `powershell -Command "Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force"` if script can't execute.
+- If `Microsoft.PowerShell.Security` fails to autoload, run `powershell -Command "Import-Module Microsoft.PowerShell.Security -ErrorAction SilentlyContinue; if (-not (Get-Command Set-ExecutionPolicy -ErrorAction SilentlyContinue) -and (Get-Command Install-Module -ErrorAction SilentlyContinue)) { Install-Module Microsoft.PowerShell.Security -Scope CurrentUser -Force -AllowClobber }; Import-Module Microsoft.PowerShell.Security"`.
 - Unity Hub should be installed, as I use `$env:APPDATA\UnityHub\secondaryInstallPath.json` to retrieve installation paths.
 - Unity and Git need to be installed, of course.
 
