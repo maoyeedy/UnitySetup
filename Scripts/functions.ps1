@@ -16,14 +16,14 @@ function Write-BoxedCode {
     # Split by various newline characters and remove empty lines
     $lines = $Code -split "`r`n|`n|`r" | Where-Object { $_ -ne "" }
     $maxLength = ($lines | Measure-Object -Property Length -Maximum).Maximum
-    $line = "─" * ($maxLength + 2)
+    $line = "-" * ($maxLength + 2)
 
-    Write-Host "┌$line┐"
+    Write-Host "+$line+"
     foreach ($codeLine in $lines) {
         $padding = " " * ($maxLength - $codeLine.Length)
-        Write-Host "│ $codeLine$padding │"
+        Write-Host "| $codeLine$padding |"
     }
-    Write-Host "└$line┘"
+    Write-Host "+$line+"
 }
 
 function Get-UnityVersion {
@@ -50,7 +50,10 @@ function Get-UnityEditorPath {
     }
 
     # If using default path, then $userPath will be empty string
-    $userPath = (Get-Content $userPathFile -Raw).Trim('"')
+    $userPath = Get-Content $userPathFile -Raw | ConvertFrom-Json
+    if ($userPath -isnot [string]) {
+        $userPath = $userPath.path
+    }
 
     if ($userPath -and (Test-Path $userPath)) {
         return $userPath
