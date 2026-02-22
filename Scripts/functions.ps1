@@ -50,9 +50,19 @@ function Get-UnityEditorPath {
     }
 
     # If using default path, then $userPath will be empty string
-    $userPath = Get-Content $userPathFile -Raw | ConvertFrom-Json
+    $rawUserPath = Get-Content $userPathFile -Raw
+    try {
+        $userPath = $rawUserPath | ConvertFrom-Json -ErrorAction Stop
+    } catch {
+        $userPath = $rawUserPath.Trim('"')
+    }
     if ($userPath -isnot [string]) {
-        $userPath = $userPath.path
+        if ($null -ne $userPath.path) {
+            $userPath = $userPath.path
+        } else {
+            Write-Warning "Could not parse Unity Hub install path from $userPathFile."
+            $userPath = $null
+        }
     }
 
     if ($userPath -and (Test-Path $userPath)) {
