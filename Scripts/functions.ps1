@@ -54,6 +54,7 @@ function Get-UnityEditorPath {
     try {
         $userPath = $rawUserPath | ConvertFrom-Json -ErrorAction Stop
     } catch {
+        Write-Verbose "Failed to parse Unity Hub path as JSON. Falling back to raw string parsing."
         $userPath = $rawUserPath.Trim('"')
     }
     if ($userPath -isnot [string]) {
