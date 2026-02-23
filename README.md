@@ -39,7 +39,7 @@ degit Maoyeedy/UnityProjectSetupScripts .setup
 
 Or use a one-liner:
 ```powershell
-irm https://raw.githubusercontent.com/Maoyeedy/UnityProjectSetupScripts/master/install.ps1 | iex
+irm https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.ps1 | iex
 ```
 
 ## Usage
