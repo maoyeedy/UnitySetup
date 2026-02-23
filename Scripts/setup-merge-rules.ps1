@@ -39,11 +39,17 @@ try {
     if (-not $mergeRulesPath) {
         throw "Could not find Unity mergerules.txt"
     }
-    $localRules = Get-Content "$PSScriptRoot\mergerules.txt" -Raw
 
-    Add-Content -Path $mergeRulesPath -Value "`n$localRules"
+    $marker = "# Custom rules added by setup script - do not remove this line"
+    $targetContent = Get-Content $mergeRulesPath -Raw
 
-    Write-Host "Configured Successfully." -ForegroundColor Green
+    if ($targetContent -match [regex]::Escape($marker)) {
+        Write-Host "Custom rules appear to already exist (marker found). Skipping append." -ForegroundColor Cyan
+    } else {
+        $localRules = Get-Content "$PSScriptRoot\mergerules.txt" -Raw
+        Add-Content -Path $mergeRulesPath -Value "`n$localRules" -Encoding utf8
+        Write-Host "Appended custom rules successfully." -ForegroundColor Green
+    }
 }
 catch {
     Write-Error "Failed to configure MergeRules: $_"

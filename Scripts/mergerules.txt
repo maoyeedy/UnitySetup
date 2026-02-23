@@ -1,3 +1,4 @@
+# Custom rules added by setup script - do not remove this line
 [comparisons]
 float *.Transform.m_LocalPosition.x 0.0000005
 float *.Transform.m_LocalPosition.y 0.0000005
