@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Shared utility functions for macOS Unity project setup
+# Shared utility functions for Unity project setup (macOS + Windows via Git Bash)
 # Sourced by setup scripts — do not run directly
 
 # Colors
@@ -9,6 +9,28 @@ YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
 DARKGRAY='\033[1;30m'
 NC='\033[0m' # No Color
+
+# --- Platform detection ---
+case "$(uname -s)" in
+    MINGW*|MSYS*)
+        PLATFORM="windows"
+        UNITY_HUB_CONFIG="$APPDATA/UnityHub/secondaryInstallPath.json"
+        UNITY_DEFAULT_EDITOR_PATH="$PROGRAMFILES/Unity/Hub/Editor"
+        UNITY_TOOLS_SUBPATH="Editor/Data/Tools"
+        UNITY_YAML_MERGE_BIN="UnityYAMLMerge.exe"
+        ;;
+    Darwin)
+        PLATFORM="macos"
+        UNITY_HUB_CONFIG="$HOME/Library/Application Support/UnityHub/secondaryInstallPath.json"
+        UNITY_DEFAULT_EDITOR_PATH="/Applications/Unity/Hub/Editor"
+        UNITY_TOOLS_SUBPATH="Unity.app/Contents/Tools"
+        UNITY_YAML_MERGE_BIN="UnityYAMLMerge"
+        ;;
+    *)
+        echo -e "${RED}Error: Unsupported platform $(uname -s)${NC}" >&2
+        exit 1
+        ;;
+esac
 
 get_unity_version() {
     local paths=("./ProjectSettings/ProjectVersion.txt" "../ProjectSettings/ProjectVersion.txt")
@@ -23,14 +45,13 @@ get_unity_version() {
 }
 
 get_unity_editor_path() {
-    local user_path_file="$HOME/Library/Application Support/UnityHub/secondaryInstallPath.json"
-    if [[ ! -f "$user_path_file" ]]; then
+    if [[ ! -f "$UNITY_HUB_CONFIG" ]]; then
         echo -e "${YELLOW}Warning: Unity Hub not installed.${NC}" >&2
         return 1
     fi
 
     local raw_content
-    raw_content=$(<"$user_path_file")
+    raw_content=$(<"$UNITY_HUB_CONFIG")
 
     local user_path=""
     # Try jq first, fallback to manual parsing
@@ -48,10 +69,8 @@ get_unity_editor_path() {
         return 0
     fi
 
-    # Default path for macOS
-    local default_path="/Applications/Unity/Hub/Editor"
-    if [[ -d "$default_path" ]]; then
-        echo "$default_path"
+    if [[ -d "$UNITY_DEFAULT_EDITOR_PATH" ]]; then
+        echo "$UNITY_DEFAULT_EDITOR_PATH"
         return 0
     fi
 
@@ -80,13 +99,13 @@ get_unity_yaml_merge_path() {
     local editor_path
     editor_path=$(get_unity_editor_installation_path) || return 1
 
-    local yaml_merge_path="$editor_path/Unity.app/Contents/Tools/UnityYAMLMerge"
+    local yaml_merge_path="$editor_path/$UNITY_TOOLS_SUBPATH/$UNITY_YAML_MERGE_BIN"
     if [[ -x "$yaml_merge_path" ]]; then
         echo "$yaml_merge_path"
         return 0
     fi
 
-    echo -e "${RED}Error: UnityYAMLMerge not found at $yaml_merge_path${NC}" >&2
+    echo -e "${RED}Error: $UNITY_YAML_MERGE_BIN not found at $yaml_merge_path${NC}" >&2
     return 1
 }
 
@@ -94,7 +113,7 @@ get_unity_merge_rules_path() {
     local editor_path
     editor_path=$(get_unity_editor_installation_path) || return 1
 
-    local merge_rules_path="$editor_path/Unity.app/Contents/Tools/mergerules.txt"
+    local merge_rules_path="$editor_path/$UNITY_TOOLS_SUBPATH/mergerules.txt"
     if [[ -f "$merge_rules_path" ]]; then
         echo "$merge_rules_path"
         return 0

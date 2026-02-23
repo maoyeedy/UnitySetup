@@ -12,7 +12,10 @@ git config core.autocrlf input
 # Disable safecrlf to prevent false positives on Unity YAML files (.meta, .unity, .anim etc.)
 git config core.safecrlf false
 
-# Skip core.longpaths on macOS (Windows-only setting)
+# Enable long paths (essential on Windows for deep Unity project structures)
+if [[ "$PLATFORM" == "windows" ]]; then
+    git config core.longpaths true
+fi
 
 # Make pull default to rebase (cleaner history)
 git config pull.rebase true

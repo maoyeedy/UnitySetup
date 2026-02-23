@@ -43,6 +43,28 @@ git clone --depth 1 --quiet $RepoUrl $InstallDir
 if ($LASTEXITCODE -ne 0) { Write-Error "git clone failed."; return }
 Remove-Item "$InstallDir\.git" -Recurse -Force
 
-# --- Execute ---
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force -ErrorAction SilentlyContinue
-& "$InstallDir\Scripts\setup-all.ps1"
+# --- Find Git Bash and execute ---
+$candidates = @(
+    "$env:ProgramFiles\Git\bin\bash.exe"
+    "${env:ProgramFiles(x86)}\Git\bin\bash.exe"
+)
+
+$bashExe = $null
+foreach ($path in $candidates) {
+    if (Test-Path $path) {
+        $bashExe = $path
+        break
+    }
+}
+
+if (-not $bashExe) {
+    $bashExe = (Get-Command bash -ErrorAction SilentlyContinue).Source
+}
+
+if (-not $bashExe) {
+    Write-Error "Git for Windows is required (bash.exe not found). Install from https://git-scm.com"
+    return
+}
+
+$setupScript = "$InstallDir/setup.sh"
+& $bashExe --login -c "cd '$(($PWD.Path) -replace '\\','/')' && bash '$(($setupScript) -replace '\\','/')'"

@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # If setup.sh lives inside .setup/ at the project root, cd up to the Unity project root
-if [[ -f "$SCRIPT_DIR/Setup.bat" ]]; then
+if [[ ! -f "./ProjectSettings/ProjectVersion.txt" && -f "$SCRIPT_DIR/../ProjectSettings/ProjectVersion.txt" ]]; then
     cd "$SCRIPT_DIR/.."
 fi
 

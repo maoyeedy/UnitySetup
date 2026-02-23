@@ -22,13 +22,16 @@ else
         exit 1
     fi
 
-    # Unity install dir is typically owned by root on macOS
-    if [[ -w "$merge_rules_path" ]]; then
-        printf '\n' >> "$merge_rules_path"
-        cat "$local_rules" >> "$merge_rules_path"
-    else
+    # Try writing directly first; fall back to sudo (macOS) or error message (Windows)
+    # Use a subshell so redirect failures don't abort under set -e
+    if (printf '\n' >> "$merge_rules_path" && cat "$local_rules" >> "$merge_rules_path") 2>/dev/null; then
+        : # success
+    elif [[ "$PLATFORM" == "macos" ]]; then
         echo -e "${YELLOW}sudo required to modify Unity's mergerules.txt${NC}"
         sudo sh -c "printf '\n' >> '$merge_rules_path' && cat '$local_rules' >> '$merge_rules_path'"
+    else
+        echo -e "${YELLOW}Cannot write to $merge_rules_path — please run from an admin shell.${NC}"
+        exit 0
     fi
     echo -e "${GREEN}Appended custom rules successfully.${NC}"
 fi
