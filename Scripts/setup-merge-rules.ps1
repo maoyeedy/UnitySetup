@@ -14,6 +14,10 @@ if ($ProjectRoot) {
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Host "`nConfiguring MergeRules requires admin privileges." -ForegroundColor Yellow
+    $mergeRulesPath = Get-UnityMergeRulesPath
+    if ($mergeRulesPath) {
+        Write-Verbose "Changes will be applied to: $mergeRulesPath"
+    }
     $scriptPath = $MyInvocation.MyCommand.Path
     try {
         $proc = Start-Process powershell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -ProjectRoot `"$($PWD.Path)`"" -Wait -PassThru

@@ -20,9 +20,6 @@ try {
     # Write-Host "$cmd" -ForegroundColor DarkGray
     git config mergetool.unityyamlmerge.cmd $cmd
     Assert-GitExitCode "Failed to set mergetool.unityyamlmerge.cmd"
-    $configValue = git config --get mergetool.unityyamlmerge.cmd
-    if ($configValue) { Write-Verbose $configValue }
-
     Write-Host "Configured Successfully." -ForegroundColor Green
 }
 catch {
