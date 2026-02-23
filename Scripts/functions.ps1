@@ -1,31 +1,3 @@
-function Assert-AdminPrivileges {
-    $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-    $isAdmin = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-    if (-not $isAdmin) {
-        Write-Host "`nConfiguring MergeRules requires admin privileges." -ForegroundColor Red
-        # Write-Host "`e[3mExample: Start-Process powershell.exe -Verb RunAs`e[23m" -ForegroundColor DarkGray
-        # Write-BoxedCode "Start-Process powershell.exe -Verb RunAs"
-        Write-BoxedCode "Start-Process powershell -Verb RunAs -Args `"-noe -nop -c cd '`$PWD'`""
-        exit
-    }
-}
-
-function Write-BoxedCode {
-    param([string]$Code)
-
-    # Split by various newline characters and remove empty lines
-    $lines = $Code -split "`r`n|`n|`r" | Where-Object { $_ -ne "" }
-    $maxLength = ($lines | Measure-Object -Property Length -Maximum).Maximum
-    $line = "-" * ($maxLength + 2)
-
-    Write-Host "+$line+"
-    foreach ($codeLine in $lines) {
-        $padding = " " * ($maxLength - $codeLine.Length)
-        Write-Host "| $codeLine$padding |"
-    }
-    Write-Host "+$line+"
-}
-
 function Get-UnityVersion {
     $paths = @(
         "./ProjectSettings/ProjectVersion.txt",
