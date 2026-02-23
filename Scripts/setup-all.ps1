@@ -23,7 +23,7 @@ Write-Host $PWD
 
 & "$PSScriptRoot\setup-git-options.ps1" -Verbose:$IsVerbose
 
-& "$PSScriptRoot\setup-submodules.ps1" -Verbose:$IsVerbose
+# & "$PSScriptRoot\setup-submodules.ps1" -Verbose:$IsVerbose
 
 & "$PSScriptRoot\setup-unityyamlmerge.ps1" -Verbose:$IsVerbose
 
