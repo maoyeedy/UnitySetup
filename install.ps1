@@ -39,7 +39,7 @@ if (Test-Path $InstallDir) {
     Remove-Item $InstallDir -Recurse -Force
 }
 Write-Host "Cloning setup scripts into $InstallDir..." -ForegroundColor Cyan
-git clone --depth 1 --quiet $RepoUrl $InstallDir
+git clone --depth 1 $RepoUrl $InstallDir
 if ($LASTEXITCODE -ne 0) { Write-Error "git clone failed."; return }
 Remove-Item "$InstallDir\.git" -Recurse -Force
 

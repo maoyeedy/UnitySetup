@@ -45,7 +45,7 @@ if [[ -d "$INSTALL_DIR" ]]; then
     rm -rf "$INSTALL_DIR"
 fi
 echo -e "\033[0;36mCloning setup scripts into $INSTALL_DIR...\033[0m"
-git clone --depth 1 --quiet "$REPO_URL" "$INSTALL_DIR"
+git clone --depth 1 "$REPO_URL" "$INSTALL_DIR"
 rm -rf "$INSTALL_DIR/.git"
 
 # --- Execute ---
