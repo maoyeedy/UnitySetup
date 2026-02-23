@@ -11,6 +11,7 @@ try {
     if (-not $yamlMergePath) {
         throw "Could not find UnityYAMLMerge.exe"
     }
+    Write-Verbose "UnityYAMLMerge: $yamlMergePath"
 
     git config mergetool.unityyamlmerge.trustExitCode false
     Assert-GitExitCode "Failed to set mergetool.unityyamlmerge.trustExitCode"

@@ -35,6 +35,7 @@ try {
     if (-not $mergeRulesPath) {
         throw "Could not find Unity mergerules.txt"
     }
+    Write-Verbose "mergerules.txt: $mergeRulesPath"
 
     $localRules = Get-Content "$PSScriptRoot\mergerules.txt" -Raw
 

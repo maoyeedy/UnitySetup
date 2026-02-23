@@ -14,7 +14,7 @@ if (-not (Test-Path -Path ".\ProjectSettings\ProjectVersion.txt")) {
 
 . "$PSScriptRoot\functions.ps1"
 
-$IsVerbose = $VerbosePreference -eq 'Continue'
+$IsVerbose = $true
 
 Write-Host "`nStarting Project setup for:" -ForegroundColor Cyan
 Write-Host $PWD
