@@ -6,6 +6,12 @@ if (Test-Path -Path ".\Setup.bat") {
     Set-Location "$PSScriptRoot\..\.."
 }
 
+if (-not (Test-Path -Path ".\ProjectSettings\ProjectVersion.txt")) {
+    Write-Error "Not a Unity project root (ProjectSettings/ProjectVersion.txt not found)."
+    Write-Host "Current directory: $PWD" -ForegroundColor Red
+    exit 1
+}
+
 . "$PSScriptRoot\functions.ps1"
 
 $IsVerbose = $VerbosePreference -eq 'Continue'

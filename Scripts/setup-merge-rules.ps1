@@ -10,6 +10,9 @@ Assert-AdminPrivileges
 Write-Host "`nConfiguring MergeRules..." -ForegroundColor Yellow
 try {
     $mergeRulesPath = Get-UnityMergeRulesPath
+    if (-not $mergeRulesPath) {
+        throw "Could not find Unity mergerules.txt"
+    }
 
     $localRules = Get-Content "$PSScriptRoot\mergerules.txt" -Raw
 

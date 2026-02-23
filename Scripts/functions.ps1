@@ -134,3 +134,10 @@ function Get-UnityMergeRulesPath {
     Write-Error "mergerules.txt not found at $mergeRulesPath"
     return $null
 }
+
+function Assert-GitExitCode {
+    param([string]$Message = "Git command failed")
+    if ($LASTEXITCODE -ne 0) {
+        throw "$Message (exit code: $LASTEXITCODE)"
+    }
+}

@@ -20,13 +20,14 @@ echo -e '\033[1;32mUpdate Complete\033[0m'
 
     if (Test-Path $postMergeHookPath) {
         $content = Get-Content $postMergeHookPath
-        if ($content -notcontains 'git submodule update --init --recursive --remote') {
+        if ($content -notcontains 'git submodule update --init --recursive') {
             Add-Content -Path $postMergeHookPath -Value "`n$lineToAdd"
         }
     }
 
     Write-Verbose "Fetching remote submodules..."
     git submodule update --init --recursive --remote
+    Assert-GitExitCode "Failed to update submodules"
 
     Write-Host "Configured Successfully." -ForegroundColor Green
 }

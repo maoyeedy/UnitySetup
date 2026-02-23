@@ -8,6 +8,7 @@ if (-not (Get-Command -Name 'Get-UnityVersion' -ErrorAction SilentlyContinue)) {
 Write-Host "`nConfiguring Git LFS..." -ForegroundColor Yellow
 try {
     git lfs install
+    Assert-GitExitCode "Failed to install Git LFS"
     Write-Host "Configured Successfully." -ForegroundColor Green
 }
 catch {
