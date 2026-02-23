@@ -1,6 +1,6 @@
-# Unity Project Setup Scripts
+# UnitySetup
 
-Make Unity Projects work better with VCS.
+Oneliner to setup Unity Project for VCS.
 
 <!-- ![Screenshot](Public/carbon-dark.png) -->
 ![Screenshot](Public/carbon-light.png)
@@ -23,7 +23,7 @@ First `cd` to a Unity project root (the folder containing `ProjectSettings/`), t
 irm https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.ps1 | iex
 ```
 
-**macOS / Linux (Terminal):**
+**macOS / Linux (Bash):**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.sh | bash
 ```
