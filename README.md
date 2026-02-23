@@ -20,7 +20,7 @@ Make Unity Projects work better with VCS.
 irm https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.ps1 | iex
 ```
 
-**macOS (Terminal):**
+**macOS / Linux (Terminal):**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.sh | bash
 ```
@@ -54,7 +54,7 @@ Individual scripts can also be run separately:
 bash ./.setup/Scripts/setup-unityyamlmerge.sh
 ```
 
-The merge rules script will prompt for `sudo` on macOS (Unity's install directory is owned by root). On Windows, run from an admin Git Bash if needed.
+The merge rules script will prompt for `sudo` on macOS/Linux (Unity's install directory is owned by root). On Windows, run from an admin Git Bash if needed.
 
 ## Troubleshooting
 
@@ -66,6 +66,9 @@ The merge rules script will prompt for `sudo` on macOS (Unity's install director
 ### macOS
 - Unity Hub should be installed. The scripts read `~/Library/Application Support/UnityHub/secondaryInstallPath.json` to resolve editor paths.
 - If Unity is installed in a non-default location without Unity Hub, the scripts may not find it.
+
+### Linux
+- Unity Editor is expected at `~/Unity/Hub/Editor/<version>/`.
 
 ### General
 - Unity and Git need to be installed, of course.

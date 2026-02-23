@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Shared utility functions for Unity project setup (macOS + Windows via Git Bash)
+# Shared utility functions for Unity project setup (Windows, macOS, Linux)
 # Sourced by setup scripts — do not run directly
 
 # Colors
@@ -26,6 +26,13 @@ case "$(uname -s)" in
         UNITY_TOOLS_SUBPATH="Unity.app/Contents/Tools"
         UNITY_YAML_MERGE_BIN="UnityYAMLMerge"
         ;;
+    Linux)
+        PLATFORM="linux"
+        UNITY_HUB_CONFIG=""
+        UNITY_DEFAULT_EDITOR_PATH="$HOME/Unity/Hub/Editor"
+        UNITY_TOOLS_SUBPATH="Editor/Data/Tools"
+        UNITY_YAML_MERGE_BIN="UnityYAMLMerge"
+        ;;
     *)
         echo -e "${RED}Error: Unsupported platform $(uname -s)${NC}" >&2
         exit 1
@@ -45,28 +52,26 @@ get_unity_version() {
 }
 
 get_unity_editor_path() {
-    if [[ ! -f "$UNITY_HUB_CONFIG" ]]; then
-        echo -e "${YELLOW}Warning: Unity Hub not installed.${NC}" >&2
-        return 1
-    fi
+    # Try Unity Hub's secondary install path config (Windows/macOS only)
+    if [[ -n "$UNITY_HUB_CONFIG" && -f "$UNITY_HUB_CONFIG" ]]; then
+        local raw_content
+        raw_content=$(<"$UNITY_HUB_CONFIG")
 
-    local raw_content
-    raw_content=$(<"$UNITY_HUB_CONFIG")
+        local user_path=""
+        # Try jq first, fallback to manual parsing
+        if command -v jq &>/dev/null; then
+            user_path=$(echo "$raw_content" | jq -r 'if type == "string" then . elif type == "object" and has("path") then .path else "" end' 2>/dev/null)
+        fi
 
-    local user_path=""
-    # Try jq first, fallback to manual parsing
-    if command -v jq &>/dev/null; then
-        user_path=$(echo "$raw_content" | jq -r 'if type == "string" then . elif type == "object" and has("path") then .path else "" end' 2>/dev/null)
-    fi
+        # Fallback: strip surrounding quotes from raw string
+        if [[ -z "$user_path" ]]; then
+            user_path=$(echo "$raw_content" | sed 's/^"//;s/"$//' | tr -d '\n\r')
+        fi
 
-    # Fallback: strip surrounding quotes from raw string
-    if [[ -z "$user_path" ]]; then
-        user_path=$(echo "$raw_content" | sed 's/^"//;s/"$//' | tr -d '\n\r')
-    fi
-
-    if [[ -n "$user_path" && -d "$user_path" ]]; then
-        echo "$user_path"
-        return 0
+        if [[ -n "$user_path" && -d "$user_path" ]]; then
+            echo "$user_path"
+            return 0
+        fi
     fi
 
     if [[ -d "$UNITY_DEFAULT_EDITOR_PATH" ]]; then
