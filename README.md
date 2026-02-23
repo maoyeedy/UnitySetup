@@ -14,7 +14,7 @@ Make Unity Projects work better with VCS.
 - Add [hook](Scripts/setup-submodules.ps1) to auto-update submodules after `git pull/merge`
 <!-- - ~~Make submodules also get fetched when you execute `git pull/fetch`~~ -->
 
-(Details can be found in each `Scripts/*.ps1`, you may modify them to your liking.)
+(Details can be found in each `Scripts/*.ps1` or `Scripts/*.sh`, you may modify them to your liking.)
 
 ## Installation
 
@@ -38,16 +38,22 @@ degit Maoyeedy/UnityProjectSetupScripts .setup
 ```
 
 Or use a one-liner:
+
+**Windows (PowerShell):**
 ```powershell
 irm https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.ps1 | iex
 ```
 
+**macOS (Terminal):**
+```bash
+curl -fsSL https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.sh | bash
+```
+
 ## Usage
 
-### Recommended
+### Windows
 Double-click `Setup.bat` - it'll launch powershell with admin rights and run everything.
 
-### Manually
 ```powershell
 # Launch new admin powershell with this
 & ./.setup/Setup.bat
@@ -56,16 +62,34 @@ Double-click `Setup.bat` - it'll launch powershell with admin rights and run eve
 powershell -NoProfile ./.setup/Scripts/setup-unityyamlmerge.ps1
 ```
 
+### macOS
+```bash
+# Run everything
+bash ./.setup/setup.sh
+
+# Run each script separately
+bash ./.setup/Scripts/setup-unityyamlmerge.sh
+```
+
+The merge rules script will prompt for `sudo` when needed (Unity's install directory is owned by root on macOS).
+
 ## Troubleshooting
 
+### Windows
 - Run `powershell -Command "Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force"` if script can't execute.
 - If `Microsoft.PowerShell.Security` fails to autoload, run `powershell -Command "Import-Module Microsoft.PowerShell.Security -ErrorAction SilentlyContinue; if (-not (Get-Command Set-ExecutionPolicy -ErrorAction SilentlyContinue) -and (Get-Command Install-Module -ErrorAction SilentlyContinue)) { Install-Module Microsoft.PowerShell.Security -Scope CurrentUser -Force -AllowClobber }; Import-Module Microsoft.PowerShell.Security"`.
 - Unity Hub should be installed, as I use `$env:APPDATA\UnityHub\secondaryInstallPath.json` to retrieve installation paths.
+
+### macOS
+- Unity Hub should be installed. The scripts read `~/Library/Application Support/UnityHub/secondaryInstallPath.json` to resolve editor paths.
+- If Unity is installed in a non-default location without Unity Hub, the scripts may not find it.
+
+### General
 - Unity and Git need to be installed, of course.
 
 ## TODO
 - [x] Add `--verbose` argument.
 - [x] Add more null/return checks.
 - [ ] Make `Setup.bat` has interactive 'which scripts to run' toggles.
-- [ ] Make it work on Linux and MacOS.
+- [x] Make it work on MacOS.
 - [x] Make it able to run with `irm | iex`
