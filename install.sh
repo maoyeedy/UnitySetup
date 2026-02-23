@@ -21,10 +21,14 @@ fi
 
 # --- Ensure git repo exists ---
 if [[ ! -d ".git" ]]; then
-    read -rp "No .git directory found. Initialize a new git repo here? (y/n) " answer
-    if [[ "$answer" != "y" ]]; then
-        echo -e "\033[1;33mAborted.\033[0m"
-        exit 0
+    if [[ -t 0 ]]; then
+        read -rp "No .git directory found. Initialize a new git repo here? (y/n) " answer
+        if [[ "$answer" != "y" ]]; then
+            echo -e "\033[1;33mAborted.\033[0m"
+            exit 0
+        fi
+    else
+        echo -e "\033[0;36mNo .git directory found. Initializing...\033[0m"
     fi
     git init
 fi
