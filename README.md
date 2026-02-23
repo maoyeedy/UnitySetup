@@ -11,9 +11,12 @@ Make Unity Projects work better with VCS.
 
 - Add [mergetool](Scripts/setup-unityyamlmerge.sh) `unityyamlmerge` to `.git/config` (to be used with `.gitattributes`)
 - Add [mergerules](Scripts/mergerules.txt) to make `unityyamlmerge` ignore negligible differences. [(Source)](https://docs.unity3d.com/Manual/SmartMerge.html)
+
 (Details can be found in each `Scripts/*.sh`, you may modify them to your liking.)
 
-## Quick Install
+## Install
+
+First `cd` to a Unity project root (the folder containing `ProjectSettings/`), then run:
 
 **Windows (PowerShell):**
 ```powershell
@@ -23,35 +26,6 @@ irm https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.ps1 | i
 **macOS / Linux (Terminal):**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.sh | bash
-```
-
-## Manual Install
-
-Clone the repository into your Unity project root:
-```bash
-cd $UnityProjectRoot
-git clone https://www.github.com/Maoyeedy/UnityProjectSetupScripts.git .setup
-rm -rf .setup/.git
-```
-
-Or add as submodule:
-```bash
-git submodule add https://www.github.com/Maoyeedy/UnityProjectSetupScripts.git .setup
-```
-
-Or use degit:
-```bash
-degit Maoyeedy/UnityProjectSetupScripts .setup
-```
-
-Then run:
-```bash
-bash ./.setup/setup.sh
-```
-
-Individual scripts can also be run separately:
-```bash
-bash ./.setup/Scripts/setup-unityyamlmerge.sh
 ```
 
 The merge rules script will prompt for `sudo` on macOS/Linux (Unity's install directory is owned by root). On Windows, run from an admin Git Bash if needed.
@@ -69,6 +43,3 @@ The merge rules script will prompt for `sudo` on macOS/Linux (Unity's install di
 
 ### Linux
 - Unity Editor is expected at `~/Unity/Hub/Editor/<version>/`.
-
-### General
-- Unity and Git need to be installed, of course.
