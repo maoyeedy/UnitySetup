@@ -37,6 +37,11 @@ Or use degit:
 degit Maoyeedy/UnityProjectSetupScripts .setup
 ```
 
+Or use a one-liner:
+```powershell
+irm https://raw.githubusercontent.com/Maoyeedy/UnityProjectSetupScripts/master/install.ps1 | iex
+```
+
 ## Usage
 
 ### Recommended
@@ -63,4 +68,4 @@ powershell -NoProfile ./.setup/Scripts/setup-unityyamlmerge.ps1
 - [x] Add more null/return checks.
 - [ ] Make `Setup.bat` has interactive 'which scripts to run' toggles.
 - [ ] Make it work on Linux and MacOS.
-- [ ] Make it able to run with `irm | iex`
+- [x] Make it able to run with `irm | iex`
