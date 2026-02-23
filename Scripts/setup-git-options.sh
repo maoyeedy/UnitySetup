@@ -18,7 +18,6 @@ set_config pull.rebase true
 set_config rebase.autoStash true
 set_config fetch.prune true
 set_config rerere.enabled true
-set_config rerere.autoUpdate true
 
 if [[ "$PLATFORM" == "windows" ]]; then
     set_config core.longpaths true
