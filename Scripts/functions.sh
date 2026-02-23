@@ -105,7 +105,7 @@ get_unity_yaml_merge_path() {
     editor_path=$(get_unity_editor_installation_path) || return 1
 
     local yaml_merge_path="$editor_path/$UNITY_TOOLS_SUBPATH/$UNITY_YAML_MERGE_BIN"
-    if [[ -x "$yaml_merge_path" ]]; then
+    if [[ -f "$yaml_merge_path" ]]; then
         echo "$yaml_merge_path"
         return 0
     fi
