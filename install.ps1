@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 $candidates = @(
     "$env:ProgramFiles\Git\bin\bash.exe"
     "${env:ProgramFiles(x86)}\Git\bin\bash.exe"
-)
+) + @(Get-ChildItem "$env:LOCALAPPDATA\Fork\gitInstance\*\bin\bash.exe" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName)
 
 $bashExe = $null
 foreach ($path in $candidates) {
