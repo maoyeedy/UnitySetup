@@ -1,3 +1,6 @@
+[CmdletBinding()]
+param()
+
 if (-not (Get-Command -Name 'Get-UnityVersion' -ErrorAction SilentlyContinue)) {
     . "$PSScriptRoot\functions.ps1"
 }
@@ -22,7 +25,7 @@ echo -e '\033[1;32mUpdate Complete\033[0m'
         }
     }
 
-    Write-Host "Fetching remote submodules..." -ForegroundColor DarkGray
+    Write-Verbose "Fetching remote submodules..."
     git submodule update --init --recursive --remote
 
     Write-Host "Configured Successfully." -ForegroundColor Green

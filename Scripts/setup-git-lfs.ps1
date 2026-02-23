@@ -1,3 +1,6 @@
+[CmdletBinding()]
+param()
+
 if (-not (Get-Command -Name 'Get-UnityVersion' -ErrorAction SilentlyContinue)) {
     . "$PSScriptRoot\functions.ps1"
 }

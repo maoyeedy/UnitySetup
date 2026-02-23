@@ -1,3 +1,6 @@
+[CmdletBinding()]
+param()
+
 if (-not (Get-Command -Name 'Get-UnityVersion' -ErrorAction SilentlyContinue)) {
     . "$PSScriptRoot\functions.ps1"
 }
@@ -10,7 +13,7 @@ try {
 
     $localRules = Get-Content "$PSScriptRoot\mergerules.txt" -Raw
 
-    Write-Host $localRules -ForegroundColor DarkGray
+    Write-Verbose $localRules
 
     Add-Content -Path $mergeRulesPath -Value "`n$localRules"
 

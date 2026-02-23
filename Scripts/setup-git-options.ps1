@@ -1,3 +1,6 @@
+[CmdletBinding()]
+param()
+
 if (-not (Get-Command -Name 'Get-UnityVersion' -ErrorAction SilentlyContinue)) {
     . "$PSScriptRoot\functions.ps1"
 }
@@ -5,13 +8,13 @@ if (-not (Get-Command -Name 'Get-UnityVersion' -ErrorAction SilentlyContinue)) {
 Write-Host "`nConfiguring Git Options..." -ForegroundColor Yellow
 try {
     git config core.autocrlf input
-    Write-Host "core.autocrlf set to input" -ForegroundColor DarkGray
+    Write-Verbose "core.autocrlf set to input"
     git config core.safecrlf true
-    Write-Host "core.safecrlf set to true" -ForegroundColor DarkGray
+    Write-Verbose "core.safecrlf set to true"
     git config core.longpaths true
-    Write-Host "core.longpaths set to true" -ForegroundColor DarkGray
+    Write-Verbose "core.longpaths set to true"
     git config pull.rebase true
-    Write-Host "pull.rebase set to true" -ForegroundColor DarkGray
+    Write-Verbose "pull.rebase set to true"
 
     Write-Host "Configured Successfully." -ForegroundColor Green
 }

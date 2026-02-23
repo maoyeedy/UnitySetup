@@ -59,7 +59,7 @@ powershell -NoProfile ./.setup/Scripts/setup-unityyamlmerge.ps1
 - Unity and Git need to be installed, of course.
 
 ## TODO
-- [ ] Add `--verbose` argument.
+- [x] Add `--verbose` argument.
 - [ ] Add more null/return checks.
 - [ ] Make `Setup.bat` has interactive 'which scripts to run' toggles.
 - [ ] Make it work on Linux and MacOS.

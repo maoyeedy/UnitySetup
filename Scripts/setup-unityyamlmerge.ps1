@@ -1,3 +1,6 @@
+[CmdletBinding()]
+param()
+
 if (-not (Get-Command -Name 'Get-UnityVersion' -ErrorAction SilentlyContinue)) {
     . "$PSScriptRoot\functions.ps1"
 }
@@ -14,7 +17,8 @@ try {
     $cmd = "'$yamlMergePath' merge -p `"`$BASE`" `"`$REMOTE`" `"`$LOCAL`" `"`$MERGED`""
     # Write-Host "$cmd" -ForegroundColor DarkGray
     git config mergetool.unityyamlmerge.cmd $cmd
-    git config --get mergetool.unityyamlmerge.cmd
+    $configValue = git config --get mergetool.unityyamlmerge.cmd
+    Write-Verbose $configValue
 
     Write-Host "Configured Successfully." -ForegroundColor Green
 }
