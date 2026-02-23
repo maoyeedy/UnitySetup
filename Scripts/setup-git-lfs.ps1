@@ -8,7 +8,10 @@ if (-not (Get-Command -Name 'Get-UnityVersion' -ErrorAction SilentlyContinue)) {
 Write-Host "`nConfiguring Git LFS..." -ForegroundColor Yellow
 try {
     $filter = git config --get filter.lfs.process 2>$null
-    if ($filter) {
+    $hookPath = Join-Path (git rev-parse --git-dir) "hooks/post-merge"
+    $hasLfsHook = (Test-Path $hookPath) -and (Select-String -Path $hookPath -Pattern 'git-lfs' -Quiet)
+
+    if ($filter -and $hasLfsHook) {
         Write-Host "Git LFS is already configured, skipping." -ForegroundColor DarkGray
     } else {
         git lfs install
