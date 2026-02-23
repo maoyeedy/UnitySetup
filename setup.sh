@@ -21,7 +21,6 @@ echo "$PWD"
 
 bash "$SCRIPT_DIR/Scripts/setup-git-lfs.sh"
 bash "$SCRIPT_DIR/Scripts/setup-git-options.sh"
-# bash "$SCRIPT_DIR/Scripts/setup-submodules.sh"
 bash "$SCRIPT_DIR/Scripts/setup-unityyamlmerge.sh"
 bash "$SCRIPT_DIR/Scripts/setup-merge-rules.sh"
 
