@@ -11,7 +11,13 @@ yaml_merge_path=$(get_unity_yaml_merge_path) || {
     exit 1
 }
 
+echo -e "  ${DARKGRAY}Binary: $yaml_merge_path${NC}"
+
 git config mergetool.unityyamlmerge.trustExitCode false
-git config mergetool.unityyamlmerge.cmd "'$yaml_merge_path' merge -p \"\$BASE\" \"\$REMOTE\" \"\$LOCAL\" \"\$MERGED\""
+echo -e "  ${DARKGRAY}mergetool.unityyamlmerge.trustExitCode = false${NC}"
+
+cmd="'$yaml_merge_path' merge -p \"\$BASE\" \"\$REMOTE\" \"\$LOCAL\" \"\$MERGED\""
+git config mergetool.unityyamlmerge.cmd "$cmd"
+echo -e "  ${DARKGRAY}mergetool.unityyamlmerge.cmd = $cmd${NC}"
 
 echo -e "${GREEN}Configured Successfully.${NC}"

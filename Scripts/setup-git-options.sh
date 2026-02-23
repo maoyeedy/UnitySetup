@@ -4,28 +4,25 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/functions.sh"
 
-echo -e "\n${YELLOW}Configuring Git Options for Unity Cross-Platform (Win + Mac)...${NC}"
+echo -e "\n${YELLOW}Configuring Git Options for Unity...${NC}"
 
-# Line endings: input is best for cross-platform with .gitattributes eol=lf
-git config core.autocrlf input
+set_config() {
+    git config "$1" "$2"
+    echo -e "  ${DARKGRAY}$1 = $2${NC}"
+}
 
-# Disable safecrlf to prevent false positives on Unity YAML files (.meta, .unity, .anim etc.)
-git config core.safecrlf false
+set_config core.autocrlf input
+set_config core.safecrlf false
+set_config core.filemode false
+set_config pull.rebase true
+set_config rebase.autoStash true
+set_config fetch.prune true
+set_config rerere.enabled true
+set_config rerere.autoUpdate true
 
-# Enable long paths (essential on Windows for deep Unity project structures)
 if [[ "$PLATFORM" == "windows" ]]; then
-    git config core.longpaths true
+    set_config core.longpaths true
 fi
 
-# Make pull default to rebase (cleaner history)
-git config pull.rebase true
-
-# Extra friendly settings for daily work
-git config rebase.autoStash true
-git config fetch.prune true
-git config rerere.enabled true
-git config rerere.autoUpdate true
-git config core.filemode false
-
-echo -e "${GREEN}Git configurations updated successfully!${NC}"
+echo -e "${GREEN}Git configurations updated successfully.${NC}"
 echo -e "${CYAN}Note: These are LOCAL repo settings (--local). For global, use --global instead.${NC}"

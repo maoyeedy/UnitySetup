@@ -17,5 +17,6 @@ if [[ -n "$filter" && "$has_lfs_hook" == true ]]; then
     echo -e "${DARKGRAY}Git LFS is already configured, skipping.${NC}"
 else
     git lfs install
+    echo -e "  ${DARKGRAY}Hook: $hook_path${NC}"
     echo -e "${GREEN}Configured Successfully.${NC}"
 fi
