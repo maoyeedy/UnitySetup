@@ -26,6 +26,14 @@ if (-not (Test-Path ".git")) {
     if ($LASTEXITCODE -ne 0) { Write-Error "git init failed."; return }
 }
 
+# --- Exclude .setup from git tracking ---
+$excludeFile = ".git\info\exclude"
+$excludeEntry = ".setup"
+if (-not (Select-String -Path $excludeFile -Pattern "^\.setup$" -Quiet -ErrorAction SilentlyContinue)) {
+    Add-Content -Path $excludeFile -Value $excludeEntry
+    Write-Host "Added '$excludeEntry' to $excludeFile" -ForegroundColor Cyan
+}
+
 # --- Download ---
 if (Test-Path $InstallDir) {
     Remove-Item $InstallDir -Recurse -Force
