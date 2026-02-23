@@ -27,17 +27,13 @@ if (-not (Test-Path ".git")) {
 }
 
 # --- Download ---
-if (Test-Path "$InstallDir\Scripts\setup-all.ps1") {
-    Write-Host "$InstallDir already present, skipping download." -ForegroundColor DarkGray
-} else {
-    if (Test-Path $InstallDir) {
-        Remove-Item $InstallDir -Recurse -Force
-    }
-    Write-Host "Cloning setup scripts into $InstallDir..." -ForegroundColor Cyan
-    git clone --depth 1 --quiet $RepoUrl $InstallDir
-    if ($LASTEXITCODE -ne 0) { Write-Error "git clone failed."; return }
-    Remove-Item "$InstallDir\.git" -Recurse -Force
+if (Test-Path $InstallDir) {
+    Remove-Item $InstallDir -Recurse -Force
 }
+Write-Host "Cloning setup scripts into $InstallDir..." -ForegroundColor Cyan
+git clone --depth 1 --quiet $RepoUrl $InstallDir
+if ($LASTEXITCODE -ne 0) { Write-Error "git clone failed."; return }
+Remove-Item "$InstallDir\.git" -Recurse -Force
 
 # --- Execute ---
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force -ErrorAction SilentlyContinue
