@@ -16,14 +16,14 @@ function Write-BoxedCode {
     # Split by various newline characters and remove empty lines
     $lines = $Code -split "`r`n|`n|`r" | Where-Object { $_ -ne "" }
     $maxLength = ($lines | Measure-Object -Property Length -Maximum).Maximum
-    $line = "─" * ($maxLength + 2)
+    $line = "-" * ($maxLength + 2)
 
-    Write-Host "┌$line┐"
+    Write-Host "+$line+"
     foreach ($codeLine in $lines) {
         $padding = " " * ($maxLength - $codeLine.Length)
-        Write-Host "│ $codeLine$padding │"
+        Write-Host "| $codeLine$padding |"
     }
-    Write-Host "└$line┘"
+    Write-Host "+$line+"
 }
 
 function Get-UnityVersion {
@@ -50,7 +50,21 @@ function Get-UnityEditorPath {
     }
 
     # If using default path, then $userPath will be empty string
-    $userPath = (Get-Content $userPathFile -Raw).Trim('"')
+    $rawUserPath = Get-Content $userPathFile -Raw
+    try {
+        $userPath = $rawUserPath | ConvertFrom-Json -ErrorAction Stop
+    } catch {
+        Write-Verbose "Failed to parse Unity Hub path as JSON. Falling back to raw string parsing."
+        $userPath = $rawUserPath.Trim('"')
+    }
+    if ($userPath -isnot [string]) {
+        if ($null -ne $userPath.path) {
+            $userPath = $userPath.path
+        } else {
+            Write-Warning "Could not parse Unity Hub install path from $userPathFile."
+            $userPath = $null
+        }
+    }
 
     if ($userPath -and (Test-Path $userPath)) {
         return $userPath
