@@ -7,8 +7,20 @@ float *.Transform.m_LocalRotation.x 0.00005 0.001
 float *.Transform.m_LocalRotation.y 0.00005 0.001
 float *.Transform.m_LocalRotation.z 0.00005 0.001
 float *.Transform.m_LocalRotation.w 0.00005 0.001
+float *.Transform.m_LocalScale.x 0.0000005
+float *.Transform.m_LocalScale.y 0.0000005
+float *.Transform.m_LocalScale.z 0.0000005
+float *.Transform.m_LocalEulerAnglesHint.x 0.00005 0.001
+float *.Transform.m_LocalEulerAnglesHint.y 0.00005 0.001
+float *.Transform.m_LocalEulerAnglesHint.z 0.00005 0.001
 
 float *.Material.m_SavedProperties.m_Colors.*.r 0.0000005
 float *.Material.m_SavedProperties.m_Colors.*.g 0.0000005
 float *.Material.m_SavedProperties.m_Colors.*.b 0.0000005
 float *.Material.m_SavedProperties.m_Colors.*.a 0.0000005
+
+float *.m_RootOrder 0.1
+
+[arrays]
+set *.GameObject.m_Component *.fileID
+set *.Prefab.m_Modification.m_Modifications target.fileID target.guid propertyPath
