@@ -12,34 +12,47 @@ Oneliner to setup Unity Project for VCS.
 - Add [mergetool](Scripts/setup-unityyamlmerge.sh) `unityyamlmerge` to `.git/config` (to be used with `.gitattributes`)
 - Add [mergerules](Scripts/mergerules.txt) to make `unityyamlmerge` ignore negligible differences. [(Source)](https://docs.unity3d.com/Manual/SmartMerge.html)
 
-(Details can be found in each `Scripts/*.sh`, you may modify them to your liking.)
+(Details can be found per `Scripts/*.sh`, you may modify them to your liking.)
 
-## Install
+## How to Use (Step-by-Step)
 
-First `cd` to a Unity project root (the folder containing `ProjectSettings/`), then run:
+### Step 1: Open a Terminal in your project
+First, you need to open a command line terminal inside your Unity project folder.
 
-**Windows (PowerShell):**
-```powershell
-irm https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.ps1 | iex
-```
+* **Windows:** Open your project folder in File Explorer, right-click on an empty space, and select **"Open in Terminal"**.
+* **Mac:** Open your project folder in Finder, right-click the path bar at the bottom (or the folder itself), and select **"Open in Terminal"**.
 
-**macOS / Linux (Bash):**
+### Step 2: Make sure Git is installed
+Type these commands into your terminal and press Enter to check if Git is installed:
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.sh | bash
+git -v
+git lfs version
 ```
+*If you see version numbers, you're good to go! Skip to Step 3.*  
+*If you get an error, you need to install Git:*
 
-The merge rules script will prompt for `sudo` on macOS/Linux (Unity's install directory is owned by root). On Windows, run from an admin Git Bash if needed.
+* **Windows:** Run this command to install Git:
+  ```powershell
+  winget install Git.Git
+  ```
+* **Mac:** Install [Homebrew](https://brew.sh/) (if you haven't already), then run:
+  ```bash
+  brew install git git-lfs
+  ```
+
+### Step 3: Run the setup script
+Copy and paste the command for your operating system into the terminal and press Enter:
+
+* **Windows (PowerShell):**
+  ```powershell
+  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
+  irm https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.ps1 | iex
+  ```
+* **Mac / Linux / Git Bash:**
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.sh | bash
+  ```
 
 ## Troubleshooting
 
-### Windows
-- Git for Windows must be installed (the scripts run in Git Bash). Install from https://git-scm.com.
-- Unity Hub should be installed. The scripts read `%APPDATA%\UnityHub\secondaryInstallPath.json` to resolve editor paths.
-- If merge rules fail to write, run from an admin Git Bash.
-
-### macOS
-- Unity Hub should be installed. The scripts read `~/Library/Application Support/UnityHub/secondaryInstallPath.json` to resolve editor paths.
-- If Unity is installed in a non-default location without Unity Hub, the scripts may not find it.
-
-### Linux
-- Unity Editor is expected at `~/Unity/Hub/Editor/<version>/`.
+* **Unity Hub Required:** This script automatically finds your Unity Editor location, but **it only works if you installed Unity via Unity Hub**.
