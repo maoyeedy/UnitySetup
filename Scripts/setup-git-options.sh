@@ -18,6 +18,10 @@ set_config pull.rebase true
 set_config rebase.autoStash true
 set_config fetch.prune true
 set_config rerere.enabled true
+set_config mergetool.keepBackup false
+set_config diff.renameLimit 10000
+set_config merge.renameLimit 10000
+set_config diff.algorithm histogram
 
 if [[ "$PLATFORM" == "windows" ]]; then
     set_config core.longpaths true
