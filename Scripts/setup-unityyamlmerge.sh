@@ -13,11 +13,16 @@ yaml_merge_path=$(get_unity_yaml_merge_path) || {
 
 echo -e "  ${DARKGRAY}Binary: $yaml_merge_path${NC}"
 
-git config mergetool.unityyamlmerge.trustExitCode false
-echo -e "  ${DARKGRAY}mergetool.unityyamlmerge.trustExitCode = false${NC}"
+# Merge driver — runs automatically during git merge/pull for files with
+# merge=unityyamlmerge in .gitattributes. Resolves conflicts silently when possible.
+git config merge.unityyamlmerge.name "UnityYAMLMerge"
+git config merge.unityyamlmerge.driver "'$yaml_merge_path' merge -p %O %B %A %A"
+echo -e "  ${DARKGRAY}merge.unityyamlmerge.driver configured${NC}"
 
+# Mergetool — manual fallback via `git mergetool` for conflicts the driver couldn't resolve.
+git config mergetool.unityyamlmerge.trustExitCode false
 cmd="'$yaml_merge_path' merge -p \"\$BASE\" \"\$REMOTE\" \"\$LOCAL\" \"\$MERGED\""
 git config mergetool.unityyamlmerge.cmd "$cmd"
-echo -e "  ${DARKGRAY}mergetool.unityyamlmerge.cmd = $cmd${NC}"
+echo -e "  ${DARKGRAY}mergetool.unityyamlmerge.cmd configured${NC}"
 
 echo -e "${GREEN}Configured Successfully.${NC}"
