@@ -8,7 +8,7 @@ CYAN='\033[0;36m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-REPO_URL="https://github.com/Maoyeedy/UnityProjectSetupScripts.git"
+REPO_URL="https://github.com/Maoyeedy/UnitySetup.git"
 INSTALL_DIR=".setup"
 
 # --- Preflight checks ---
