@@ -49,3 +49,8 @@ echo -e "${CYAN}Cloning setup scripts into $INSTALL_DIR...${NC}"
 git clone --depth 1 "$REPO_URL" "$INSTALL_DIR"
 rm -rf "$INSTALL_DIR/.git"
 bash "$INSTALL_DIR/setup.sh"
+
+echo ""
+echo -e "${CYAN}Recommended: Add a .gitattributes and .gitignore tailored for Unity:${NC}"
+echo -e "  ${YELLOW}https://github.com/gitattributes/gitattributes/blob/master/Unity.gitattributes${NC}"
+echo -e "  ${YELLOW}https://github.com/github/gitignore/blob/main/Unity.gitignore${NC}"

@@ -53,6 +53,13 @@ Copy and paste the command for your operating system into the terminal and press
   curl -fsSL https://raw.githubusercontent.com/Maoyeedy/UnitySetup/master/install.sh | bash
   ```
 
+## Recommended .gitattributes and .gitignore
+
+For a complete Unity Git setup, add a `.gitattributes` and `.gitignore` tailored for Unity:
+
+- [Unity.gitattributes](https://github.com/gitattributes/gitattributes/blob/master/Unity.gitattributes) — ensures correct file handling and enables UnityYAMLMerge for conflicts
+- [Unity.gitignore](https://github.com/github/gitignore/blob/main/Unity.gitignore) — excludes build artifacts, caches, and other generated files
+
 ## Troubleshooting
 
 * **Unity Hub Required:** This script automatically finds your Unity Editor location, but **it only works if you installed Unity via Unity Hub**.
